@@ -4,12 +4,13 @@ import java.util.List;
 
 import util.Paging;
 import web.dto.Board;
+import web.dto.BoardFile;
 
 public interface BoardDao {
 
 	public List<Board> selectAll();
 
-	public Board selectByBoardno(Board board);
+	public Board selectBoardByBoardno(Board board);
 
 	public void updateHit(Board board);
 
@@ -27,5 +28,16 @@ public interface BoardDao {
 	 * @return List - 조회된 게시글 목록
 	 */
 	public List<Board> selectAll(Paging paging);
+
+	public void insert(Board board);
+
+	public void insertFile(BoardFile boardFile);
+	
+	public int selectBoardno();
+
+	public void update(Board board);
+
+	public BoardFile selectBoardFileByBoardno(BoardFile boardFile);
+		
 
 }

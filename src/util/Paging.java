@@ -133,11 +133,11 @@ public class Paging {
 		this.pageCount = pageCount;
 	}
 
-	public int getStarPage() {
+	public int getStartPage() {
 		return startPage;
 	}
 
-	public void setStarPage(int starPage) {
+	public void setStartPage(int starPage) {
 		this.startPage = starPage;
 	}
 

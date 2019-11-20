@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import web.dto.Board;
+import web.dto.BoardFile;
 import web.service.face.BoardService;
 import web.service.impl.BoardServiceImpl;
 
@@ -24,11 +25,14 @@ public class BoardViewController extends HttpServlet {
 		
 		// board DTO객체(요청 파라미터를 얻기위한 객체)
 		Board board = boardService.getBoardno(req); // 요청 파라미터 얻기
+		BoardFile boardFile = boardService.getBoardnoByFile(req);
 		
 		// 게시판 상세정도 요청
 		Board detailBoard = boardService.view(board);
+		BoardFile detailBoardFile = boardService.fileview(boardFile);
 		
 		req.setAttribute("board", detailBoard);
+		req.setAttribute("boardfile", detailBoardFile);
 		
 		req.getRequestDispatcher("/WEB-INF/views/board/view.jsp").forward(req, resp);
 	}

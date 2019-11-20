@@ -3,9 +3,11 @@ package web.service.face;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import util.Paging;
 import web.dto.Board;
+import web.dto.BoardFile;
 
 public interface BoardService {
 	
@@ -36,6 +38,20 @@ public interface BoardService {
 	 * @return Paging - 페이징 정보
 	 */
 	public Paging getPaging(HttpServletRequest req);
+
+	public Board getParamForUpdate(HttpServletRequest req);
+
+//	public void write(Board board);
+
+	public void write(HttpServletRequest req, HttpServletResponse resp);
+
+	public void update(Board board);
+
+	public BoardFile getBoardnoByFile(HttpServletRequest req);
+
+	public BoardFile fileview(BoardFile boardFile);
+
+	
 	
 	
 

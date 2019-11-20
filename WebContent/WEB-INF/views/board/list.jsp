@@ -10,20 +10,41 @@ table, th {
 	text-align: center;
 }
 
-tr td:nth-child(2){
+tr td:nth-child(2) {
 	text-align: left;
 }
 
-tr td:not(:first-child), tr th:not(:first-child){
+tr td:not (:first-child ), tr th:not (:first-child ){
 	border-left: 3px solid white;
 }
 </style>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		//글쓰기 동작
+		$("#btnWrite").click(function() {
+			if(${empty login}){
+				
+				$(location).attr("href", "/main");
+			}
+			else{
+				$(location).attr("href","/board/write");
+			}
+		});
+
+	});
+</script>
 
 <div class="container">
 
 	<h1>게시판 목록</h1>
 	<hr>
-
+	
+	<div class="text-right" style="margin-bottom: 20px;">
+		<button class="btn btn-default" onclick="location.href='/main';">메인</button>
+		<button class="btn btn-default"  id="btnWrite">글쓰기</button>
+	</div>
+	
 	<table class="table table-hover table table-striped table-condensed">
 		<tr class="info">
 			<th style="width: 10%">게시글 번호</th>
@@ -45,6 +66,8 @@ tr td:not(:first-child), tr th:not(:first-child){
 		</c:forEach>
 
 	</table>
+
+	<jsp:include page="/WEB-INF/views/layout/paging.jsp" />
 
 </div>
 <!-- .container -->

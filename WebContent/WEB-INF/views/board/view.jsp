@@ -1,78 +1,87 @@
-<%@page import="web.dto.Board"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<%
-	Board board = (Board) request.getAttribute("board");
-%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<style type="text/css">
-table {
-	border-collapse: collapse;
-	border: 1px solid #ccc;
-	text-align: center;
-}
+<c:import url="/WEB-INF/views/layout/header.jsp" />
 
-td {
-	border-top: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
-	padding: 5px 10px;
-}
+<script type="text/javascript">
+	$(document).ready(function() {
+		//목록버튼 동작
+		$("#btnList").click(function() {
+			$(location).attr("href", "/board/list");
+		});
 
-th {
-	border-top: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
-	padding: 5px 10px;
-}
+		//수정버튼 동작
+		$("#btnUpdate").click(function() {
+			$(location).attr("href","/board/update?boardno=${board.boardno }")
+		});
 
-td:hover {
-	background: #ccf;
-}
+		//삭제버튼 동작
+		$("#btnDelete").click(function() {
+		});
 
-#title {
-	background: #FF7F50;
-}
+	});
+</script>
 
-tr:nth-child(2n) {
-	background-color: ivory;
-}
+<div class="container">
 
-tr:nth-child(2n+1) {
-	background-color: #FAEBD7;
-}
-</style>
-</head>
-<body>
-	<h1>게시판 목록</h1>
+	<h1>게시판 - 상세보기</h1>
+
 	<hr>
 
-	<table border="1">
-		<tr id="title">
-			<th>게시글 번호</th>
-			<th>제목</th>
-			<th>아이디</th>
-			<th>내용</th>
-			<th>조회수</th>
-			<th>최초작성일</th>
-		</tr>
+	<table class="table table-bordered">
 		<tr>
-<%-- 			<c:set targer="${ board}" var="b"></c:set> --%>
-			<td><%=board.getBoardno() %></td>
-			<td><%=board.getTitle() %></td>
-			<td><%=board.getId() %></td>
-			<td><%=board.getContent() %></td>
-			<td><%=board.getHit() %></td>
-			<td><%=board.getWrittendate() %></td>
+			<td class="info">글번호</td>
+			<td colspan="3">${board.boardno }</td>
+		</tr>
+
+		<tr>
+			<td class="info">제목</td>
+			<td colspan="3">${board.title }</td>
+		</tr>
+
+		<tr>
+			<td class="info">아이디</td>
+			<td>${board.id }</td>
+			<td class="info">닉네임</td>
+			<td>[ 추후 추가 ]</td>
+		</tr>
+
+		<tr>
+			<td class="info">조회수</td>
+			<td>${board.hit }</td>
+			<td class="info">추천수</td>
+			<td>[ 추후 추가 ]</td>
+		</tr>
+
+		<tr>
+			<td class="info">작성일</td>
+			<td colspan="3">${board.writtendate }</td>
+		</tr>
+		
+		<tr>
+			<td class="info">첨부파일</td>
+			<td colspan="3">${boardfile.originname }</td>
+		</tr>
+
+		<tr>
+			<td class="info" colspan="4">내용</td>
+		</tr>
+
+		<tr>
+			<td colspan="4">${board.content }</td>
 		</tr>
 
 	</table>
-	<button onclick="location.href='/board/list';">목록</button>
-	<button>수정</button>
-	<button>삭제</button>
-</body>
-</html>
+
+	<div class="text-center">
+		<button id="btnList" class="btn btn-primary">목록</button>
+		<button id="btnUpdate" class="btn btn-info">수정</button>
+		<button id="btnDelete" class="btn btn-danger">삭제</button>
+	</div>
+
+</div>
+<!-- .container -->
+
+<c:import url="/WEB-INF/views/layout/footer.jsp" />

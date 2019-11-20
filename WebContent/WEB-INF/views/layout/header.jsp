@@ -29,8 +29,6 @@
 	margin: 0; /* background를 전체에 적용하기 위한 설정 */
 	background: 20px 0; /* h1태그의 높이 지정 */ 
 }
-
-
 </style>
 
 <!-- jQuery 2.2.4 -->

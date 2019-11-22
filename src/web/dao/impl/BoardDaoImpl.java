@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import dbutil.DBConn;
 import util.Paging;
 import web.dao.face.BoardDao;
@@ -61,37 +59,35 @@ public class BoardDaoImpl implements BoardDao {
 
 	@Override
 	public List<Board> selectAll(Paging paging) {
-		// DB연결
 		conn = DBConn.getConnection();
+//		System.out.println("selectAll" + paging.getSearch());
 
-		// SQL 쿼리
 		String sql = "";
-		sql += "SELECT * FROM(";
-		sql += " SELECT rownum rnum, B.* FROM(";
-		sql += " SELECT ";
-		sql += " boardno, title, id, content, hit, writtendate";
-		sql += " FROM board";
-		sql += " ORDER BY boardno DESC";
-		sql += " ) B";
-		sql += " ORDER BY rnum";
-		sql += " ) BOARD";
-		sql += " WHERE rnum BETWEEN ? AND ? ";
 
-		// 최종 결과를 저장할 List
+		sql += "select * from(";
+		sql += " select rownum rnum, B.* FROM(";
+		sql += " select boardno, title, id, content, hit, writtendate from board";
+		if (paging.getSearch() != null && !"".equals(paging.getSearch())) {
+			sql += " where title LIKE '%'||'" + paging.getSearch() + "'||'%'";
+		}
+		sql += " order by boardno desc";
+		sql += " )B";
+		sql += " ORDER BY rnum";
+		sql += " )BOARD";
+		sql += " WHERE rnum BETWEEN ? AND ?";
+
 		List list = new ArrayList();
 
 		try {
-			// SQL 수행 객체
 			ps = conn.prepareStatement(sql);
 
 			ps.setInt(1, paging.getStartNo());
-			ps.setInt(2, paging.getEndNO());
+			ps.setInt(2, paging.getEndNo());
 
-			// SQL 수행 결과
 			rs = ps.executeQuery();
-
 			while (rs.next()) {
 				Board board = new Board();
+
 				board.setBoardno(rs.getInt("boardno"));
 				board.setTitle(rs.getString("title"));
 				board.setId(rs.getString("id"));
@@ -100,8 +96,10 @@ public class BoardDaoImpl implements BoardDao {
 				board.setWrittendate(rs.getDate("writtendate"));
 
 				list.add(board);
+
 			}
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
@@ -194,20 +192,32 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	@Override
-	public int seletCntAll() {
+	public int seletCntAll(String search) {
 		// DB연결
 		conn = DBConn.getConnection();
 
 		// SQL 쿼리
 		String sql = "";
-		sql += "SELECT count(*) FROM board";
+
+		if (search != null) {
+			sql += "SELECT count(*) FROM board";
+			sql += " WHERE title LIKE ?";
+		} else {
+			sql += "SELECT count(*) FROM board";
+		}
 
 		// 최종 결과 변수
 		int cnt = 0;
 
 		try {
-			ps = conn.prepareStatement(sql); // 수행객체 얻기
-			rs = ps.executeQuery(); // SQL 수행결과
+			if (search != null) {
+				ps = conn.prepareStatement(sql); // 수행객체 얻기
+				ps.setString(1, "%" + search + "%");
+				rs = ps.executeQuery(); // SQL 수행결과
+			} else {
+				ps = conn.prepareStatement(sql);
+				rs = ps.executeQuery();
+			}
 
 			// SQL 결과 처리
 			while (rs.next()) {
@@ -340,7 +350,7 @@ public class BoardDaoImpl implements BoardDao {
 			try {
 				if (ps != null)
 					ps.close();
-				
+
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -386,6 +396,34 @@ public class BoardDaoImpl implements BoardDao {
 		}
 
 		return boardFile;
+	}
+
+	@Override
+	public void delete(Board board) {
+		conn = DBConn.getConnection();
+
+		String sql = "";
+		sql += "DELETE FROM board";
+		sql += " WHERE boardno = ?";
+
+		try {
+			ps = conn.prepareStatement(sql);
+
+			ps.setInt(1, board.getBoardno());
+
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (ps != null)
+					ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
 	}
 
 }

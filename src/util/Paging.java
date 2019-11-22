@@ -13,7 +13,8 @@ public class Paging {
 	private int endPage; // 화면에 보인은 마지막 페이지 번호(계산으로 알아냄)
 
 	private int startNo; // 화면에 보이는 페이지의 게시글 시작 번호
-	private int endNO; // 화면에 보이는 페이지의 게시글 끝 번호
+	private int endNo; // 화면에 보이는 페이지의 게시글 끝 번호
+	private String search;
 
 	// 총 게시글 수만 입력하는 생성자
 	public Paging(int totalCount) {
@@ -75,14 +76,15 @@ public class Paging {
 		// 화면에 보여질 페이징 시작번호와 끝번호
 		startPage = ((curPage - 1) / pageCount) * pageCount + 1;
 		endPage = startPage + pageCount - 1;
-		
+
 		// 계산된 끝페이지번호가 총 페이지수보다 클 때 보정
 		// 강제로 최종 페이지까지만 페이지번호가 노출되도록 설정한다
-		if(endPage > totalPage) endPage = totalPage;
+		if (endPage > totalPage)
+			endPage = totalPage;
 
 		// 화면에 보여질 게시글의 시작번호와 끝번호
 		startNo = (curPage - 1) * listCount + 1;
-		endNO = curPage * listCount;
+		endNo = curPage * listCount;
 
 	}
 
@@ -90,7 +92,7 @@ public class Paging {
 	public String toString() {
 		return "Paging [curPage=" + curPage + ", totalCount=" + totalCount + ", listCount=" + listCount + ", totalPage="
 				+ totalPage + ", pageCount=" + pageCount + ", startPage=" + startPage + ", endPage=" + endPage
-				+ ", startNo=" + startNo + ", endNO=" + endNO + "]";
+				+ ", startNo=" + startNo + ", endNo=" + endNo + ", search=" + search + "]";
 	}
 
 	public int getCurPage() {
@@ -157,12 +159,20 @@ public class Paging {
 		this.startNo = startNo;
 	}
 
-	public int getEndNO() {
-		return endNO;
+	public int getEndNo() {
+		return endNo;
 	}
 
-	public void setEndNO(int endNO) {
-		this.endNO = endNO;
+	public void setEndNo(int endNO) {
+		this.endNo = endNO;
+	}
+
+	public String getSearch() {
+		return search;
+	}
+
+	public void setSearch(String search) {
+		this.search = search;
 	}
 
 }

@@ -4,6 +4,7 @@
 
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
+
 <style type="text/css">
 .center-block {
 	display: block;

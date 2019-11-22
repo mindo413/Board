@@ -44,7 +44,8 @@
 	<h1>게시판 - 수정하기</h1>
 
 	<hr>
-	<form name="update" action="/board/update" method="post">
+	<form name="update" action="/board/update" method="post"
+	enctype="multipart/form-data">
 		<input type="hidden" name="boardno" value="${board.boardno }" />
 
 		<table class="table table-bordered">
@@ -56,7 +57,7 @@
 			<tr>
 				<td class="info">제목</td>
 				<td colspan="3"><input type="text" class="form-control"
-					id="title" name="title" value="${board.title }"/></td>
+					id="title" name="title" value="${board.title }" /></td>
 			</tr>
 
 			<tr>
@@ -80,7 +81,8 @@
 
 			<tr>
 				<td class="info">첨부파일</td>
-				<td colspan="3">${boardfile.originname }</td>
+				<td colspan="3">${boardfile.originname }
+				<input type="file" name="upfile" /></td>
 			</tr>
 
 			<tr>

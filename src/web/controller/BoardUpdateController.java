@@ -23,11 +23,15 @@ public class BoardUpdateController extends HttpServlet {
 
 		// board DTO객체(요청 파라미터를 얻기위한 객체)
 		Board board = boardService.getBoardno(req); // 요청 파라미터 얻기
+//		System.out.println("update board : " + board);
 		BoardFile boardFile = boardService.getBoardnoByFile(req);
+//		System.out.println("update boardfile : " + boardFile);
 
 		// 게시판 상세정도 요청
 		Board detailBoard = boardService.view(board);
+//		System.out.println("update deetail board : " + detailBoard);
 		BoardFile detailBoardFile = boardService.fileview(boardFile);
+//		System.out.println("update deetail board file: " + detailBoardFile);
 
 		req.setAttribute("board", detailBoard);
 		req.setAttribute("boardfile", detailBoardFile);
@@ -37,9 +41,9 @@ public class BoardUpdateController extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Board board = boardService.getParamForUpdate(req);
-		boardService.update(board);
-		
+//		Board board = boardService.getParamForUpdate(req);
+		Board board = boardService.update(req,resp);
+//		System.out.println("boardno : " + board);
 		resp.sendRedirect("/board/view?boardno="+board.getBoardno());
 	}
 }

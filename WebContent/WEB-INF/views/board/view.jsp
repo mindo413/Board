@@ -14,11 +14,12 @@
 
 		//수정버튼 동작
 		$("#btnUpdate").click(function() {
-			$(location).attr("href","/board/update?boardno=${board.boardno }")
+			$(location).attr("href", "/board/update?boardno=${board.boardno }")
 		});
 
 		//삭제버튼 동작
 		$("#btnDelete").click(function() {
+			$(location).attr("href", "/board/delete?boardno=${board.boardno}")
 		});
 
 	});
@@ -59,10 +60,10 @@
 			<td class="info">작성일</td>
 			<td colspan="3">${board.writtendate }</td>
 		</tr>
-		
+
 		<tr>
 			<td class="info">첨부파일</td>
-			<td colspan="3">${boardfile.originname }</td>
+			<td colspan="3"><a href="/upload/${boardfile.storedname }">${boardfile.originname }</a></td>
 		</tr>
 
 		<tr>
@@ -77,8 +78,10 @@
 
 	<div class="text-center">
 		<button id="btnList" class="btn btn-primary">목록</button>
-		<button id="btnUpdate" class="btn btn-info">수정</button>
-		<button id="btnDelete" class="btn btn-danger">삭제</button>
+		<c:if test="${board.id eq userid}">
+			<button id="btnUpdate" class="btn btn-info">수정</button>
+			<button id="btnDelete" class="btn btn-danger">삭제</button>
+		</c:if>
 	</div>
 
 </div>

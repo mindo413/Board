@@ -45,13 +45,17 @@ public interface BoardService {
 
 	public void write(HttpServletRequest req, HttpServletResponse resp);
 
-	public void update(Board board);
+	public Board update(HttpServletRequest req, HttpServletResponse resp);
 
 	public BoardFile getBoardnoByFile(HttpServletRequest req);
 
 	public BoardFile fileview(BoardFile boardFile);
 
-	
+	public BoardFile getFile(HttpServletRequest req);
+
+	public void getFile(BoardFile boardFile);
+
+	public void delete(Board board);
 	
 	
 

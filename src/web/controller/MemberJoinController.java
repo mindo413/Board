@@ -25,7 +25,9 @@ public class MemberJoinController extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		
+		req.setCharacterEncoding("UTF-8");
+		
 		Member member = memberService.getjoinMember(req);
 
 		memberService.join(member);

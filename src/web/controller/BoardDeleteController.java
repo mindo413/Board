@@ -8,17 +8,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class MainController
- */
-@WebServlet("/main")
-public class MainController extends HttpServlet {
+import web.dto.Board;
+import web.service.face.BoardService;
+import web.service.impl.BoardServiceImpl;
+
+@WebServlet("/board/delete")
+public class BoardDeleteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	BoardService boardService = new BoardServiceImpl();
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		req.setCharacterEncoding("UTF-8");
+		Board board = boardService.getBoardno(req);
 		
-		req.getRequestDispatcher("/WEB-INF/views/main.jsp").forward(req, resp);
+		boardService.delete(board);
+		
+		resp.sendRedirect("/board/list");
 	}
 }

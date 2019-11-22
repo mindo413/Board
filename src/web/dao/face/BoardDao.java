@@ -19,7 +19,7 @@ public interface BoardDao {
 	 * 
 	 * @return int - 총 게시글 수
 	 */
-	public int seletCntAll();
+	public int seletCntAll(String search);
 
 	/**
 	 * 페이징 대상 게시글 목록 조회
@@ -38,6 +38,8 @@ public interface BoardDao {
 	public void update(Board board);
 
 	public BoardFile selectBoardFileByBoardno(BoardFile boardFile);
+
+	public void delete(Board board);
 		
 
 }

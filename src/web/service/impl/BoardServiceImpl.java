@@ -21,16 +21,23 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import util.Paging;
 import web.dao.face.BoardDao;
 import web.dao.face.BoardFileDao;
+import web.dao.face.CommentDao;
+import web.dao.face.RecommendDao;
 import web.dao.impl.BoardDaoImpl;
 import web.dao.impl.BoardFileDaoImpl;
+import web.dao.impl.CommentDaoImpl;
+import web.dao.impl.RecommendDaoImpl;
 import web.dto.Board;
 import web.dto.BoardFile;
+import web.dto.Recommend;
 import web.service.face.BoardService;
 
 public class BoardServiceImpl implements BoardService {
 
 	private BoardDao boardDao = new BoardDaoImpl();
 	private BoardFileDao boardFileDao = new BoardFileDaoImpl();
+	private RecommendDao recommendDao = new RecommendDaoImpl();
+	private CommentDao commentDao = new CommentDaoImpl();
 
 	@Override
 	public List<Board> getlist() {
@@ -72,7 +79,7 @@ public class BoardServiceImpl implements BoardService {
 			curPage = Integer.parseInt(param);
 		}
 //		System.out.println("curPage : " + curPage);
-		
+
 		String search = req.getParameter("search");
 
 		// Board TB와 curPage 값을 이용한 Paging 객체를 생성하고 반환
@@ -597,6 +604,60 @@ public class BoardServiceImpl implements BoardService {
 
 		boardFileDao.delete(boardFile);
 		boardDao.delete(board);
+	}
+
+	@Override
+	public boolean isRecommend(Recommend recommend) {
+		int cnt = recommendDao.selectCntRecommend(recommend);
+
+		if (cnt > 0) { // 추천했음
+			return true;
+
+		} else { // 추천하지 않았음
+			return false;
+
+		}
+	}
+
+	@Override
+	public Recommend getRecommend(HttpServletRequest req) {
+
+		// 전달파라미터 파싱
+		int boardno = 0;
+		String param = req.getParameter("boardno");
+		if (param != null && !"".equals(param)) {
+			boardno = Integer.parseInt(param);
+		}
+
+		// 로그인한 아이디
+		String userid = (String) req.getSession().getAttribute("userid");
+
+		Recommend recommend = new Recommend();
+		recommend.setBoardno(boardno);
+		recommend.setUserid(userid);
+
+		return recommend;
+	}
+
+	@Override
+	public boolean recommend(Recommend recommend) {
+		if (isRecommend(recommend)) { // 추천한 상태
+			recommendDao.deleteRecommend(recommend);
+
+			return false;
+
+		} else { // 추천하지 않은 상태
+			recommendDao.insertRecommend(recommend);
+
+			return true;
+
+		}
+
+	}
+
+	@Override
+	public int getTotalCntRecommend(Recommend recommend) {
+		return recommendDao.selectTotalCntRecommend(recommend);
 	}
 
 }

@@ -23,11 +23,16 @@
 #footer{
 	text-align: center;
 	background: #87cefa;
+	min-height : 200px;
 }
 
 #footer h1{
 	margin: 0; /* background를 전체에 적용하기 위한 설정 */
 	background: 20px 0; /* h1태그의 높이 지정 */ 
+}
+
+#wrapper{
+	min-height: 700px;
 }
 </style>
 

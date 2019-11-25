@@ -64,9 +64,9 @@ tr td:not (:first-child ), tr th:not (:first-child ){
 	<div class="text-right" style="margin-bottom: 10px;">
 		<form action="/board/list" method="get" style="margin-bottom: -34px;">
 			<input type="text" id="search" name="search"
-				style="margin: auto 0px -34px 280px; width: 400px;" value="${search }"/>
+				style="margin: auto 0px -34px 280px; width: 400px; height: 28px;" value="${search }"/>
 			<button class="btn btn-default" id="btnSearch"
-				style="margin: auto 250px auto auto;">검색</button>
+				style="margin: auto 350px auto auto;">검색</button>
 		</form>
 		<button class="btn btn-default" id="btnMain">메인</button>
 		<button class="btn btn-default" id="btnWrite">글쓰기</button>

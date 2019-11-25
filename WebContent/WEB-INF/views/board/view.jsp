@@ -25,6 +25,57 @@
 	});
 </script>
 
+<script type="text/javascript">
+$(document).ready(function() {
+	if(${isRecommend}) {
+		$("#btnRecommend")
+			.addClass("btn-warning")
+			.html('추천 취소');
+		
+	} else {
+		$("#btnRecommend")
+			.html('추천');
+	}
+	
+	$("#btnRecommend").click(function() {
+		
+		$.ajax({
+			type: "get"
+			, url: "/board/recommend"
+			, data: { "boardno": '${viewBoard.boardno }' }
+			, dataType: "json"
+			, success: function( data ) {
+// 				console.log("성공");
+// 				console.log(data);
+
+				if( data.result ) { //추천 성공
+					$("#btnRecommend")
+					.removeClass("btn-primary")
+					.addClass("btn-warning")
+					.html('추천 취소');
+				
+				} else { //추천 취소 성공
+					$("#btnRecommend")
+					.removeClass("btn-warning")
+					.addClass("btn-warning")
+					.html('추천');
+				
+				}
+				
+				//추천수 적용
+				$("#recommend").html(data.cnt);
+				
+			}
+			, error: function() {
+				console.log("실패");
+				
+			}
+		});
+		
+	});
+});
+</script>
+
 <div class="container">
 
 	<h1>게시판 - 상세보기</h1>
@@ -53,7 +104,7 @@
 			<td class="info">조회수</td>
 			<td>${board.hit }</td>
 			<td class="info">추천수</td>
-			<td>[ 추후 추가 ]</td>
+			<td id="recommend">${board.recommend }</td>
 		</tr>
 
 		<tr>
@@ -77,6 +128,9 @@
 	</table>
 
 	<div class="text-center">
+		<c:if test="${login }">
+			<button id="btnRecommend" class="btn btn-warning">추천</button>
+		</c:if>
 		<button id="btnList" class="btn btn-primary">목록</button>
 		<c:if test="${board.id eq userid}">
 			<button id="btnUpdate" class="btn btn-info">수정</button>
